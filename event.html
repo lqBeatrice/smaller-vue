@@ -1,0 +1,46 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!--这里onclick里面为什么fn要加括号呢-->
+<!--主要看onclick是如何执行的，看下面js代码-->
+   <!--<div onclick="fn()">点我啊</div>-->
+   <!--原生事件绑定-->
+<!--<div @click="fn" id="app">点我啊</div>-->
+<!--这里传参的话要把下面的两个参数都要传进去，event参数在vue中用$event表示-->
+<div @click="fn(4)" id="app">点我啊</div>
+<!--如果不传递参数，则不要写括号，会自动传入事件源，如果写括号了，要手动传入$event属性 -->
+<!--v-on:可以简写成@-->
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({   // 根实例
+        el:"#app",
+        data:{
+            a:1
+        },
+        methods:{
+            //fn(){alert(this.a);}
+            // 如果fn函数中想要传参数，他原本自带参数event
+            fn(c){console.log(event);}
+        }
+
+        // methods和data中的数据会全部放到vm实例上，而且名字不能冲突，冲突会报错，methods中的this指向的都是实例
+        // this.a相当于vm.a  =1
+    })
+    // function fn(){
+    //     alert("哈哈哈哈h");
+    // }
+//    function onclick (event){
+     //     fn();
+    //这里如果在onclick里面的fn不加括号
+    //     fn;  就变成了这个样子，这种情况当然没办法执行alert
+    //     所以一定要加括号才能真正的执行
+    //  }
+</script>
+</body>
+</html>

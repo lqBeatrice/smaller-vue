@@ -1,0 +1,27 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    爱好：
+    <select v-model="hobby">
+        <option value="" disabled>请选择</option>
+        <option value="读书">读书</option>
+        <option value="游泳">游泳</option>
+        <option value="摄影">摄影</option>
+    </select>
+    {{hobby}}
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#app",
+        data:{
+            hobby:""
+        }
+    })
+</script>
+</body>
+</html>

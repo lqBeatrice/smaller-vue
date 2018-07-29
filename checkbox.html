@@ -1,0 +1,26 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <!--有关于input的标签就是要实现响应式数据变化的，则需要添加v-model来实现-->
+    <!--如果是复选框，只有一个复选框的时候，会把值转换成boolean类型，如果true代表选中，数据类型是boolean类型-->
+    <!--如果是多个复选框，要增加value属性，并且数据类型是数组-->
+    爱好：<input type="checkbox" v-model="hobby" value="阅读">阅读
+          <input type="checkbox" v-model="hobby" value="游泳">游泳
+          <input type="checkbox" v-model="hobby" value="书法">书法
+    {{hobby}}
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            hobby:[]   //会根据视图中复选框的选择情况增加或者删除上面复选框组中的value    真的好神奇呀！！！！
+        }
+    })
+</script>
+</body>
+</html>

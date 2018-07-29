@@ -1,0 +1,24 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <!--radio是通过v-model进行分组的，value值就是对应选择后的结果-->
+    爱好：<input type="radio" v-model="hobby" value="阅读" >阅读
+    <input type="radio" v-model="hobby" value="游泳">游泳
+    <input type="radio" v-model="hobby" value="书法">书法
+    {{hobby}}
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            hobby:""
+        }
+    })
+</script>
+</body>
+</html>

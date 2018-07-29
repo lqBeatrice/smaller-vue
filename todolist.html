@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>todolist</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="word" @keyup.enter="add">
+    <ul>
+        <li v-for="(myword,index) in words">{{myword}}<button @click="remove(index)">删除</button></li>
+    </ul>
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#app",
+        data:{
+            words:[],
+            word:""
+        },
+        methods:{
+            //这样写的结果就是在input输入框中一输入就自动渲染到页面中，所以我们要手动添加事件来限定
+            // add(){
+            //     this.words.unshift(this.word);
+            // }
+            // add(event){
+            //     if(event.keyCode === 13){
+            //       if(this.word === '') alert("输入的值不能为空！");
+            //       else{
+            //         this.words.unshift(this.word);
+            //         this.word = '';
+            //       }
+            //     }
+            // },
+            add(){
+                    if(this.word === '') alert("输入的值不能为空！");
+                    else{
+                        this.words.unshift(this.word);
+                        this.word = '';
+                    }
+            },
+            remove(index){
+                //删除点击的那一项，则需要在上面视图上获取数组里面的index项，然后同过index删除对应的一项即可
+                //利用filter实现，注意此方法不会改变原数组，所以要通过赋值成筛选后的新数组，filter返回true将该项放入新数组中
+                this.words = this.words.filter((item,i)=>index !== i);
+            }
+
+        }
+    });
+</script>
+</body>
+</html>

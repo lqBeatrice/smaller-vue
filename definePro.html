@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+<input id="input" type="text" v-model="nam">
+<p>{{nam}}</p>
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let obj = {};
+    //重点理解里面的两个方法的实现过程get和set方法
+    //实现数据视图的双向绑定，需要一个中间对象实现
+    let temp = {};
+    Object.defineProperty(obj,'name',{
+        set(val){   //给obj赋值会触发set方法
+            temp['name'] = val;
+            input.value = val;
+        },
+        get(){   //取obj的name属性值会触发get方法
+            return temp['name'];
+        }
+    });
+    input.value = obj.name;   //页面一加载时会调用get方法
+    input.addEventListener('input',function(){  //等待输入框的变化
+        obj.name = this.value;   //当值变化会调用set方法
+    })
+    new Vue({
+        el:'#app',
+        data:{
+            nam :obj.name
+        }
+    })
+    // Object.defineProperty(obj,"name",{
+    //     configurable:true,   // 是否可刪除
+    //     writable:true,  //是否可重新赋值
+    //     enumerable:true,  //是否可枚举
+    //     value:1,
+    // })
+</script>
+</body>
+</html>

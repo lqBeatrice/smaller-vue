@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div id="app">
+    <!--小胡子语法  可以放 赋值 取值 三元-->
+    <!--可以达到数据变化影响视图的效果-->
+    <input v-model="msg">
+    <p>message 是：{{msg}}</p>
+</div>
+
+    <!--视图影响数据-->
+    <!--表单元素　input checkbox textarea radio select-->
+    <!--vue的指令只是dom上的行间属性，vue给这类属性一定的意义来实现特殊的功能 所有的指令以v-开头-->
+    <!--vue忽略掉 selected checked 都没有意义，没有value-->
+    <!--v-model会将msg的值赋予输入框，值改变了会影响我们的数据-->
+    <!--v-text  = = =  {{}}-->
+    <!--v-text取代{{}}，但是每次都要定义v-text很不方便，也可以使用v-cloak来解决（块级）闪烁问题-->
+    <!--但是v-cloak需要手动添加样式，：[v-cloak]{display:none},不过这种方法在以后不采用-->
+    <!--v-once 只绑定一次，当数据再次发生变化也不会导致页面刷新-->
+    <!--v-html  把html字符串当作html渲染-->
+<script src="./node_modules/vue/dist/vue.js"></script>
+<!--引入vue后会给你一个vue的构造函数-->
+<script>
+    let vm  = new Vue({
+        el:'#app',//告诉vue能管理那个dom部分
+        data:{  //data中的数据会被vm所代理
+            msg:'helloword'  //可以通过vm.msg取到对应的内容
+        }
+    })
+</script>
+</body>
+</html>

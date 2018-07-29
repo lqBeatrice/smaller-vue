@@ -1,0 +1,28 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>购物车</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<!--ajax要用到axios库，它和别的没有依赖关系，随便在哪里引用都可以-->
+<!--基于promise的-->
+<script src="./node_modules/axios/dist/axios.js"></script>
+<script src="./jsLearn/vue-ajax.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        //专门用来发送ajax的方法
+        created(){
+           ajax({url:'./json/book.json'}).then((res)=>{this.products = res},(err)=>{});
+        },//vue的aiax请求方法，在数据被初始化后调用，this指向指的也是vm实例，钩子函数
+        data:{
+            products:[]
+
+        }
+    });
+</script>
+</body>
+</html>

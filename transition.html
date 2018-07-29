@@ -1,0 +1,55 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Vue实现动画效果</title>
+    <!--结合animate实现动画效果-->
+    <link rel="stylesheet" href="node_modules/animate.css/animate.css">
+    <!--<style>-->
+        <!--.bea-enter{-->
+            <!--opacity: 0;-->
+        <!--}-->
+        <!--.bea-leave-active,.bea-enter-active{-->
+            <!--transition: opacity 1s;-->
+        <!--}-->
+        <!--.bea-leave-to{-->
+            <!--opacity: 0;-->
+        <!--}-->
+    <!--</style>-->
+</head>
+<body>
+<div id="app">
+    <!--v-if操作的是dom，v-show操作的是样式-->
+    <!--如果频繁的切换dom使用v-show，当数据一开始就确定下来，使用v-if更好-->
+    <!--如果if不通过内部指令不会再执行了-->
+    <!--只有dom从显示到隐藏，或者隐藏到显示，才能使用vue的动画-->
+    <!--<button @click="flag = !flag">点击</button>-->
+    <!--<transition>-->
+        <!--<h4 v-show="flag">hello,qianqian</h4>-->
+    <!--</transition>-->
+
+    <!--根据输入框的内容筛选数组中的结果并且显示出动画效果-->
+    <input type="text" v-model="query">
+    <transition-group enter-active-class="animated lightSpeedIn" leave-active-class="animated lightSpeedOut">
+        <!--v-for默认恢复用原有的dom元素，如果加了key而且key不同，它认为就是两个人了，这样两个人都会实现动画效果了-->
+        <div v-for="a in newArr" :key="Math.random()">{{a}}</div>
+    </transition-group>
+
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#app",
+        computed:{
+            newArr(){
+                return this.arr.filter(item=>item == this.query);
+            }
+        },
+        data:{
+            flag:true,
+            arr:[1,2,3,4,5],
+            query:''
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <!--这里因为data中person对象没有定义age属性，所以在控制台改变person.age的值并不能响应式的显示在页面上，
+    所以一般情况下要先在data中将要用到的对象的属性都初始化一遍-->
+  {{person.age}}
+    <!--数组在页面上的显示，如果就是array会显示整个数组，如果是array[]则显示特定的那个元素-->
+    <!--但是有一个问题，在后台改变array某个元素的数据，如array[1] = 4,并不能响应式的显示在页面上-->
+    <p>{{array}}</p>
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    // 数据响应变化，前面几个小例子都是字符串类型的简单数据类型，
+    // 这个例子来简单认识vue对于数组、对象之类的数据类型是怎么响应的
+    //①object
+    //vue会循环data中的数据（数据截取），依次的增加getter和setter，这样实现了数据的响应式变化
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            person:{}, // 对象属性要初始化
+            array:[1,2,3,4,5]
+        }
+    })
+    // 使用变量时 要先初始化 否则新加的属性不会使页面刷新
+    //如果没有初始化，则需要定义一个新的对象来替换原来的对象
+    // let per = {age:0};
+    // vm.person = per;
+    //还可以使用$set方法给某个元素添加新的属性，可给对象添加响应式的数据变化
+    vm.$set(vm.person,'age',1);  //set方法中的参数列表：对象、要添加的属性、属性的初始值
+    //②Array
+    // vm.array[0] = 10,这是错误的写法，vue中去改变数组的某一项是监控不到的
+    // vm.array.length -= 2,也不能使用改变数组长度的方法
+    // 如果要改变数组，要使用变异方法，（splice、reverse、pop、push、shift、unshift、sort）
+    // 这些方法都可以改变原数组
+    vm.array.reverse();
+    //把数组的每项都乘以3
+    vm.array = vm.array.map(item=>item*=3);  //filter，map
+
+</script>
+</body>
+</html>

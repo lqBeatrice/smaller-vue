@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>v-for</title>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <!--要循环显示谁，就在谁的标签里面添加v-for,和for-in很像，也可以用of-->
+        <!--如果想要显示索引，则再加一个参数-->
+        <!--默认是value of/in 数组，也可以是 （value，index） in/of 数组 -->
+        <li v-for="(fruit,index) in fruits">
+            {{fruit.name}}{{index+1}}
+        </li>
+    </ul>
+    <p></p>
+    <ul>
+        <li v-for="(countries,index) in city">
+            {{index + 1}}.{{countries.country}}
+            <ul>
+                <li v-for="(ct,childIndex) in countries.cities">
+                    {{index+1}}.{{childIndex+1}}{{ct}}
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            fruits:[{name:'apple'},{name:'banana'},{name:'orange'}],//一维数组
+            city:[{country:'中国',cities:['北京','上海','武汉','岳阳']},
+                {country:'法国',cities:['巴黎']},{country:'美国',cities:['纽约','华盛顿']}]   //二维数组，二级目录的效果
+        }
+    });
+</script>
+
+</body>
+</html>
