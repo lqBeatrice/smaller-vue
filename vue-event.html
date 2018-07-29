@@ -5,17 +5,19 @@
 </head>
 <body>
 <div id="app">
+    <!--这种包含关系的div，在里层触发事件时，会自动产生事件冒泡现象（由内（下）到外（上）依次处罚执行）-->
+    <!--和事件冒泡相反的就是事件捕获（capture），在这种结构中，如果某层加入了capture修饰符，不管点击哪个，
+        都会第一触发该事件，执行后，继续按照原来的顺序依次触发执行（之前执行过的就跳过）-->
+    <!--关于stop的理解：事件冒泡其实就是相当于在某种结构下，触发一个事件会形成一条事件链，如果在这条事件链
+        的某个事件节点定义stop修饰符，则会从此事件切断整条事件链，此后事件就不会继续传播下去，即就在此事件之后停止-->
     <div @click="parent">parent
-        <div @click="child">child
+        <div @click.stop="child">child
             <div @click="grandson">grandson</div>
         </div>
     </div>
 </div>
 <script src="./node_modules/vue/dist/vue.js"></script>
 <script>
-    //<!--几个常见的事件在vue中的处理方式-->
-    //1、事件冒泡
-    //2、事件捕获
     let vm = new Vue({
         el:"#app",
         methods:{
@@ -25,11 +27,23 @@
             child(){
                 alert('child');
             },
-            grandson(){
+            grandson(e){
                 alert('grandson');
+                //e.cancelBubble = true ;
+                //e.stopPropagation();
             }
         }
     })
+    // 在浏览器上运行的结果，当点击grandson时，先弹出grandson，后面相继弹出child和parent
+    //几个常见的事件在vue中的处理方式
+    // ①即事件冒泡，但是这并不是我们想要的效果，所以需要阻止事件冒泡
+    // 阻止事件冒泡JS有两种写法：e.stopPropagation()和e.cancelBubble = true
+    // 但是这两种写法不太方便，在vue中有定义的修饰符，绑定在要阻止冒泡的事件上。
+    // @事件.stop  ==  e.stopPropagation()/e.cancelBubble = true
+    // ②事件捕获@事件.capture == xxx.addEventListener('click',fn,true)，加在某个事件上，该事件就是第一个触发执行的
+    // ③事件禁止@事件.prevent == e.preventDefault()/e.returnValue = false，加在某个事件，该事件不会触发
+    // ④事件只触发一次@事件.once == on('click');...off('click')，触发一次后，后面不再触发
+    // ⑤判断事件源绑定事件@事件.self == e.srcElement&&e.target
 </script>
 </body>
 </html>
