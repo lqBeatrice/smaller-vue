@@ -74,21 +74,21 @@
                     this.products.forEach(item=>item.isSelected = val);
                 },
             },
-            // sum:{//sum的结果会被缓存，如果以来的数据没有变化就不会重新执行
-            //     get(){
-            //         return this.products.reduce((prev,next)=>{
-            //             if(! next.isSelected) return prev;  //如果当前没被选中，就不加当前这一项
-            //             return prev + next.productPrice*next.productCount;
-            //         },0)
-            //     }
-            // }
-            //如果只有get可以换一种简单的方法写：把计算属性写成函数，默认调用的就是get方法
             sum:{//sum的结果会被缓存，如果以来的数据没有变化就不会重新执行
+                get(){
                     return this.products.reduce((prev,next)=>{
                         if(! next.isSelected) return prev;  //如果当前没被选中，就不加当前这一项
                         return prev + next.productPrice*next.productCount;
                     },0)
+                }
             }
+            //如果只有get可以换一种简单的方法写：把计算属性写成函数，默认调用的就是get方法
+            // sum:{//sum的结果会被缓存，如果以来的数据没有变化就不会重新执行
+            //         return this.products.reduce((prev,next)=>{
+            //             if(! next.isSelected) return prev;  //如果当前没被选中，就不加当前这一项
+            //             return prev + next.productPrice*next.productCount;
+            //         },0)
+            // }
 
         },
         filters:{  // 这里可以有很多自定义的过滤器
