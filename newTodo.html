@@ -1,0 +1,68 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+    <!--<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">-->
+    <link href="http://apps.bdimg.com/libs/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <!--当选择一个复选框时，给其添加一个删除线-->
+    <style>
+        .del{
+            background-color:lightyellow;
+            color:#cccccc;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    MYTODOLIST
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="text-danger">钱钱你今天还有<label class="text-info">{{count}}</label>件事情要做哦！</h4>
+                        <div><input class="form-control" type="text" v-model="msplan" @keyup.13="add"></div>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <!--当我点击li时，我可以知道我点击的是哪一项，如果我点击的todo和当前循环的某一项相等时，应该显示输入框-->
+                            <!--这里我们可以再写一个不同样式的input的，然后通过v-show来根据双击dblclick事件进行切换input-->
+                            <li class="list-group-item" :class="{del:one.isSelected}" v-for="(one,index) in filterPlans" @dblclick="editor(one)">
+                                <span v-show="one !== cur">
+                                    <input type="checkbox" v-model="one.isSelected">
+                                    {{one.plan}}
+                                </span>
+                                <input type="text" v-model="one.plan" v-show="one == cur" v-focus="one == cur" @keyup.enter="cancel" @blur="cancel">
+                                <button class="pull-right btn btn-xs btn-danger" @click="remove(one)">&bigotimes;</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <ul class="nav nav-pills">
+                            <!--通过在网址后面加哈希值来显示不同条件的结果,记得要带#号-->
+                            <li role="presentation" :class="{active:hash== 'all'}"><a href="#/all" >全部任务</a></li>
+                            <li role="presentation" :class="{active:hash== 'finish'}"><a href="#/finish" >已完成</a></li>
+                            <li role="presentation" :class="{active:hash== 'unfinish'}"><a href="#/unfinish">未完成</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script src="./node_modules/axios/dist/axios.js"></script>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src="./jsLearn/newTodo.js"></script>
+</body>
+</html>
