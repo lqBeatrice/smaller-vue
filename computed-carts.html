@@ -23,7 +23,7 @@
                     <!--click点击时 checkbox的状态还没改变 所以拿到的值总是相反的  遇到这种情况我们一般用change事件
                     change可以保证只当值变化后再触发函数-->
                     <!--页面一加载完要根据下面的checkbox的状态对全选的状态进行初始化-->
-                    <td><input type="checkbox" v-model="product.isSelected" @change="checkOne"></td>
+                    <td><input type="checkbox" v-model="product.isSelected"></td>
                     <!-- : 和 v-bind 等价，指令：动态绑定数据-->
                     <td><img :src="product.productImgUrl" :title="product.productName">{{product.productInfo}}</td>
                     <td>{{product.productPrice}}</td>
@@ -102,7 +102,7 @@
                 //这里有个错误，this指向问题，回调函数中的this都指的是window，所以要改成箭头函数的方式，不能写function的形式
                 //then基于promise，解决回调问题
                 //要在初始化数据这块对全选状态进行初始化
-                axios.get("json/book.json").then(res=>{this.products = res.data;this.checkOne();},err=>{console.log(err)});
+                axios.get("json/book.json").then(res=>{this.products = res.data;},err=>{console.log(err)});
             },
             remove(product){  //product指当前点击的这一项
                 this.products = this.products.filter(item=>item !== product);
