@@ -1,0 +1,40 @@
+<!
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>实例上的方法</title>
+</head>
+<body>
+<div id="app">
+  <p ref="myp">{{msg}}</p>
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    // this.$data  实例上的数据
+    // this.$watch  监控
+    // this.$el    当前el元素
+    // this.$set   后面加的属性实现响应式变化
+    // this.$option  实例上的所有属性
+    // this.$nextTick()异步函数，当其他代码完成后再执行该方法
+    let vm = new Vue({
+        el:"#app",
+        data:{
+            msg:'hello',
+        },
+        mounted(){  // 可以在mounted里面操作dom，在html中对要操作的dom定义ref
+            // this.$nextTick(()=>{  //  异步方法，等待渲染dom完成后来获取vm
+            //     console.log(vm);
+            // })
+            // 所有ref的集合，通过这个可以取到真实的dom
+            // 如果dom元素不是通过v-for循环出来的，只能获取到一个，通过v-for循环出来的可以获取多个
+            // 如果数据变化后想获取真实dom中的内容，需要等待页面渲染完毕后，再去获取，
+            // 有时候数据变化后能马上看到变化的其实是数据映射的效果，并不是真正渲染完的数据
+            // dom渲染是异步的，如果你想一改变数据马上取到最新的结果，就要用this.$nextTick()
+            // 所以所有的dom操作最好写在this.$nextTick()中
+            this.$refs.myp
+
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="my_input">
+    <!--根据输入框的值计算出验证的值-->
+    <!--那个是被算出来的值，哪个就定义在computed中-->
+    <span>{{msg}}</span>
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        // computed根据输入值变化了，算出一个新的值
+        // computed:{     // 默认调用get方法，必须要有return，computed不支持异步
+        //   msg:{
+        //       get(){
+        //           if(this.my_input.length < 3) return "输入信息少了";
+        //           if(this.my_input.length > 6) return "输入信息长了";
+        //           return '';
+        //       }
+        //   }
+        // },
+        // watch 观察输入值的变化，当输入值变化后要做什么事
+        watch:{  // 只有值变化的时候才会触发，支持异步，其他情况更善于用computed
+            // 有一个不足：里面的属性只能观察对应属性的值的变化，如果别的值也发生变化，则需要额外再添加其他的属性，没有computed方便
+            my_input(newVal,oldVal){   // watch属性名要和观察的对象的名字一致,有两个参数，当my_input变化了就会执行这个函数
+                setTimeout(()=>{
+                    if(newVal.length < 3) return this.msg = "输入信息少了";  // return是为了结束
+                    if(newVal.length > 6) return this.msg = "输入信息长了";
+                    return this.msg = '';
+                },500)
+            }
+        },
+        data:{
+            my_input:'',
+            msg:''
+        }
+
+    });
+</script>
+</body>
+</html>

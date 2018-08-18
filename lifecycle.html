@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>钩子函数声明周期</title>
+</head>
+<body>
+<div id="app">
+
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    //  声明周期：beforeCreate  created
+    //            beforeMount(挂载之前，正在编译，还没加载成页面)  mounted
+    //            beforeUpdate  updated （挂载好页面渲染出来了，后面还会有页面的更新）
+    //            beforeDestroy  destroyed
+    let vm  = new Vue({  // 根实例，初始化时会调用很多方法（钩子函数）
+        el:'#app',
+
+    })
+</script>
+</body>
+</html>

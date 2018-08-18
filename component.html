@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div id="app">
+    <my-handsome></my-handsome>
+    <!--使用组件-->
+    <handsome></handsome>
+    <handsome1></handsome1>
+    <parent></parent>
+</div>
+
+
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    // 1、组件名不要带有大写，多个单词用 -
+    // 2、只要组件名和定义的名字相同是可以的(首字母可以大写)
+    // 3、html采用短横线隔开法，js中转驼峰也是可以的
+    Vue.component('my-handsome',{   //  一个对象可以看成一个组件
+       template:`<div>{{intro}}</div>`,
+        data(){  // 组件中的数据必须是函数类型，返回一个实例作为组件的数据
+            return {
+                intro:'我很帅'
+            }
+        }
+    });
+    // 局部组件
+    //  三部曲：1、创建这个组件，2、注册这个组件，3、使用这个组件
+    //  组件就是一个对象
+    //  组件是相互独立的，不能跨作用域，组件中也拥有生命周期函数
+    //  vm实例也是一个组件
+    //  如果组件共用了数据，会导致同时更新，组件的特点就是独立性
+    //  子组件不能直接使用父组件的属性（组件之间的数据交互）
+    //  组件理论上可以无限嵌套
+    let handsome = {template:'<div>我很英俊</div>'}; // 创建组件
+    let handsome1 = {template:'<div>我很漂亮</div>'};
+
+    let grandson = {
+        template:'<div>孙子</div>',
+    };
+    let son = {
+        template:`<div>儿子<grandson></grandson></div>`,
+        components:{
+            grandson
+        }
+    };
+    let parent = {
+        template:'<div>爸爸<son></son></div>',
+        components:{
+            son
+        }
+    };
+    // 子组件和父组件之间的通信
+    let vm  = new Vue({
+        el:'#app',
+        template:`<div>儿子，爸爸在这<child :papa="papa"></child></div>`,
+        components:{
+            //handsome:handsome  //注册组件，在es6中名字一样可以就写一个
+            handsome,handsome1,
+            parent,
+            child:{
+                // props:{//属性名和data中的不能相同，校验时不能阻断代码的指向，只是警告而已
+                //     m:{
+                //         // 校验属性的类型，如果不带冒号得到的肯定是字符串类型，所以在设值时要带冒号，:m='1',:m='true'
+                //         type:[String,Function,Object,Array,Number,Boolean],
+                //         // default:0  // 可以给m赋予默认值，如果不传默认会调用default
+                //         required:true,// 此属性是必须传递，但是不能和default同用，所以我们不写上面一行default
+                //         // validator(val){ // 自定义校验器： 第一个参数是当前传的值，返回true表示通过，返回false表示不通过
+                //         //     return val>300;  // 自定义校验器，用的不是很多
+                //         // }
+                //     },
+                // },  // 对象的形式可以进行校验
+                //  props['m']   // this.m = 100;  会在当前子组件上声明一个m属性值是父亲的
+                props:['papa'],
+                template:'<div>我的儿子{  {papa}}</div>'
+            }
+
+        },
+        data:{
+            msg:'helloword',// 这里定义的属性在上面两个局部组件中是不能访问到的
+            papa:'来自父组件的消息'
+        }
+    })
+</script>
+</body>
+</html>

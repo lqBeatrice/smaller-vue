@@ -1,0 +1,61 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>自定义指令：间接可以操作dom</title>
+    <style>
+        .bea{
+            /*这句很重要，如果没有absolute，js中写的drag没用*/
+            position: absolute;
+            width:50px;
+            height:50px;
+            background:red;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button v-set="msg">变出你的颜色</button>
+    <div v-drag class="bea">拽我呀</div>
+</div>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        directives:{
+            set(el,bindings){   //  bindings参数是当dom里面的自定义指令有需要绑定的value或者其他的值时才需要在函数中添加这个参数
+                console.log(bindings); // 我们可以输出这个参数点的值
+                // {name: "set", rawName: "v-set", value: "red", expression: "msg", modifiers: {…}, …}
+                // 这里我们需要得到的是value值，所以写成binding.value
+                el.style.background = bindings.value;
+            },
+            // 我们自定义一个指令，可以对绑定的dom实行拖拽操作
+            drag(el){  // 这里我们没有需要绑定的值，所以没有bindings参数
+                // 拖拽的实现：通过第一次点击鼠标时计算出来的鼠标的距离和盒子的距离就可以求出鼠标到盒子边的距离
+                // 开始拖拽：给盒子边距离赋值（通过前面求出来的鼠标到盒子边的距离和一直当前鼠标的距离求出盒子边的位置）
+                // 鼠标抬起：把事件清空,onmousemove和onmouseup事件都清空
+                // 最后防止收缩或者有默认行为的话，e.preventDefault()防止默认行为
+                // 先写鼠标点击事件
+                el.onmousedown = function(e){
+                    let disx = e.pageX - el.offsetLeft;
+                    let disy = e.pageY - el.offsetTop;
+                    document.onmousemove = function(e){
+                        el.style.left = e.pageX - disx;
+                        el.style.top = e.pageY - disy;
+                        document.onmouseup = function(){
+                            document.onmouseup = document.onmousemove = null;
+                        };
+                        e.preventDefault();
+                    }
+                };
+
+
+
+            }
+        },
+        data:{
+            msg:"red"
+        }
+    })
+</script>
+</body>
+</html>
